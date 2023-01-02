@@ -1,0 +1,437 @@
+import java.security.InvalidParameterException
+
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+}
+
+android {
+
+    String property_code
+    def base_application_id = "com.irisvalet.android.apps.nativemobilevalet"
+
+    compileSdk 31
+
+    defaultConfig {
+        applicationId base_application_id + "." + property_code
+
+        minSdk 21
+        targetSdk 31
+        versionCode verCode
+        versionName "6.0.1"
+        buildConfigField ("String", "StatusBarColor", "\"\"")
+        buildConfigField ("boolean", "LightStatusBar", "false")
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+
+        // Used for signing apps with the original Wrapper Mobile valet key
+        oldConfig {
+            try {
+                storeFile file("${project.projectDir}/../../../keystore1/" + 'iris-release-key.keystore')
+                keyAlias 'androiddebugkey'
+                storePassword 'android'
+                keyPassword 'android'
+            }
+            catch (ex) {
+                throw new InvalidParameterException(ex.message)
+            }
+        }
+
+        config {
+            try {
+                storeFile file("${project.projectDir}/../../../keystore2/" + 'iris_keystore_native_apps.jks')
+                keyAlias 'iris_keystore_native_apps'
+                storePassword 'iRiS##2017##'
+                keyPassword 'iRiS##2017##'
+            }
+            catch (ex) {
+                throw new InvalidParameterException(ex.message)
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_12
+        targetCompatibility JavaVersion.VERSION_12
+    }
+    kotlinOptions {
+        jvmTarget = '12'
+    }
+    buildFeatures {
+        viewBinding true
+    }
+
+    flavorDimensions "Property"
+
+
+    productFlavors {
+
+        redsnprTest {
+            dimension "Property"
+            property_code = "REDSNPR"
+            resValue "string", "app_name", "REDSNPR Mobile"
+            buildConfigField("String", "URL", '"https://guest.sandbox.iris.net/redsnpr"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"6c39be01f2da42c694a1c522e0d14fad"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkYmFiM2ViNTktOWQ0OS00N2JhLWFiODItYzE0MjU5MGJmN2ZiAQAAACRiYWYyNGE0Zi04ODE3LTQzYjktOWUxMy0xY2JjZjdlYmM5NDY.I3HaEwYVitgJRAnCfOGMhUCUjFAFJnlezgh4dC0ZA6I"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffB01313\"")
+            buildConfigField ("boolean", "LightStatusBar", "false")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        hhbetaTest {
+            dimension "Property"
+            property_code = "HHBETA"
+            resValue "string", "app_name", "HHBETA Mobile"
+            buildConfigField("String", "URL", '"https://guest.sandbox.iris.net/hhbeta"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"6c39be01f2da42c694a1c522e0d14fad"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkNDJmMWE3MGQtNzQwYy00YTFhLTllMDgtMzQ2YmFhMDRiNjQzAQAAACRkZjE3MjhkOC1jZWU5LTRiZWUtYWYzMy03OTM2MjY4YjExZDQ.xRShwhDPsIgr4l5w-1L-o9boTd88RiBtFVItGF_iX6o"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ff313131\"")
+            buildConfigField ("boolean", "LightStatusBar", "false")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        hhapiTest {
+            dimension "Property"
+            property_code = "HHAPI"
+            resValue "string", "app_name", "HHAPI Mobile"
+            buildConfigField("String", "URL", '"https://guest.sandbox.iris.net/hhapi"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"6c39be01f2da42c694a1c522e0d14fad"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkMGIyYjBmZDgtZjdjZC00OTg3LWJjOTQtMTU2ZmRlNzg5ODQ4AQAAACQ2YTA5YTA0MC0xNjlmLTQzMDctOGIxMy01YmI3MzNhMjkxMWE.61s3yCxksopYw94V0wX08Yzt1siMQBmBZGtGOZSLn7U"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ff798450\"")
+            buildConfigField ("boolean", "LightStatusBar", "false")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        hhldnTest {
+            dimension "Property"
+            property_code = "HHLDN"
+            resValue "string", "app_name", "Heddon London Mobile"
+            buildConfigField("String", "URL", '"https://guest.iris.net/hhldn"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"1895f576a76b45478a7a76c6779b8b74"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkOWE0MjIyMmQtMTQyMC00YWZlLWIyOTAtNWExNmJlMzEzYjQxAQAAACRmOWExOGQ2My02YWYzLTRlM2ItODlkYy01ODFjZGI5ODFhZDg.g3V_bJxNCB9b0Mm3cX7GA5w5i2Gxcs02vZ_RN87emhs"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFFFFFF\"")
+            buildConfigField ("boolean", "LightStatusBar", "true")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        hhlgsTest {
+            dimension "Property"
+            property_code = "HHLGS"
+            resValue "string", "app_name", "Guest Support Mobile"
+            buildConfigField("String", "URL", '"https://guest.iris.net/hhlgs"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"e1a84341a2894fabbda7740660b228ea"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkNDlmNjgwMTAtNDFjYy00Y2NjLThiY2YtNjc2ZTA3Njk3YjM2AQAAACQ2OWE3YTk1MS0zNjZiLTQyZWYtODc1OS1iZjBlMzhhZDVkZDY.QoL_rVzUZYsdgRnNpOb7pQAIkzk4w-y0M1ZXFEpKKCQ"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFF6B6B\"")
+            buildConfigField ("boolean", "LightStatusBar", "false")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionChgnvl {
+            dimension "Property"
+            property_code = "CHGNVL"
+            resValue "string", "app_name", "The Gonville Hotel"
+            buildConfigField("String", "URL", '"https://guest.iris.net/chgnvl"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"2938ac21d80844849ef3a91552ef728f"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkZDE4M2I1NjEtZTAyMy00M2MxLWJkMjUtYTU0YWYxNWY5OWMwAQAAACQ0Yjk1ZmE2Ny1kMmY3LTQ1YjMtYjkzZS0xNGQ4MmU3NTBkNDc.krQwHzxS7lK_aaENElrC-AKyMaqhYVtpBKqNc9-qcIQ"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFFFFFF\"")
+            buildConfigField ("boolean", "LightStatusBar", "true")
+
+            signingConfig signingConfigs.config
+            applicationId "com.irisvalet.chgnvl.mv"
+        }
+
+        productionChmdsh {
+            dimension "Property"
+            property_code = "CHMDSH"
+            resValue "string", "app_name", "Maids Head Hotel"
+            buildConfigField("String", "URL", '"https://guest.iris.net/chmdsh"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"3bf51a05004c4055b3397778941ee54d"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkYmUxYmIyZjItZTViNS00ZDBlLWIwMjEtMmIwN2E5MmM5YjdjAQAAACQ4Y2Q0YmIzYi0zMTZiLTRlNmUtYjA2OS0wZTNlOWFkZDU0N2Y.__EA3pta00DN4DFZ7kz6E7OG0lVgjR4DiL4HvdpASZ4"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFFFFFF\"")
+            buildConfigField ("boolean", "LightStatusBar", "true")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionDohwh {
+            dimension "Property"
+            property_code = "DOHWH"
+            resValue "string", "app_name", "W Doha"
+            buildConfigField("String", "URL", '"https://guest.iris.net/dohwh"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"b7403d3ff39746159b7145b9fdcb5a22"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkY2NhZmE3NDAtMTc1MC00MGNlLWIyMTAtN2Q4Zjc2NTNmMGU4AQAAACQ5NDNkMDBhMS0yYjQxLTQ4YzEtYjk3Zi01MDEwM2M5ZGQ2Njg.aDcRZNs77BR1Z4iXbVZ5DZVbRHY_u-zEStFr4j74SGM"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ff000000\"")
+            buildConfigField ("boolean", "LightStatusBar", "false")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionElpmpm {
+            dimension "Property"
+            property_code = "ELPMPM"
+            resValue "string", "app_name", "El Llorenç Parc De La Mar"
+            buildConfigField("String", "URL", '"https://guest.iris.net/elpmpm"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"fc01628fc8a44c70ac406e6441f4b5a2"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkNmI4MTNlZTQtMjM4Mi00MGI0LTgzMmUtNzZiYWRiMWQwYzkxAQAAACRlNmVkMTZiMS05OWUwLTQ5MmMtYTFjNC03OTdiMmM1MDQ3MjI.kMpP3-VsBfTTBJJLS8OTH2J-Zb82276xfmEhnFAMAes"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFFFFFF\"")
+            buildConfigField ("boolean", "LightStatusBar", "true")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionHntsmb {
+            dimension "Property"
+            property_code = "HNTSMB"
+            resValue "string", "app_name", "The Huntley Hotel"
+            buildConfigField("String", "URL", '"https://guest.iris.net/hntsmb"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"1080fe867f6a4e1cbcabebaa39179f6e"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkZDIzZjk4YWQtYjBiMi00MzNmLWI0OWQtY2Y4YTNhNTk2OGFlAQAAACQwMDVhNmQyNi04NTg3LTRkMjYtOTljOS04MGFlYmNkMTg5OWU.b_KZpUBi8DLm7531a4yqga5m7dOUvauMnDWa4n9oCVw"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ff000000\"")
+            buildConfigField ("boolean", "LightStatusBar", "false")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionLanphk {
+            dimension "Property"
+            property_code = "LANPHK"
+            resValue "string", "app_name", "Waterfront Suites - Guest App"
+            buildConfigField("String", "URL", '"https://guest.iris.net/lanphk"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"78197e0a0c954a9abc73da60076ae50e"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkMzAwODVmNzktYzI2Mi00Y2ZjLWJiODMtZTA5NzUwMzUxMTA5AQAAACQzYTM3Njc2NS0xNjUwLTQ2MmMtODBkNC00YTc0ZDM2M2ViZmQ.vxWS2hdco-OGDAImjDYoCnaVagWr9MQQ2B56Wl--k-M"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFFFFFF\"")
+            buildConfigField ("boolean", "LightStatusBar", "true")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionLebahs {
+            dimension "Property"
+            property_code = "LEBAHS"
+            resValue "string", "app_name", "Le Barthélemy"
+            buildConfigField("String", "URL", '"https://guest.iris.net/lebahs"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"a4ba07c335bd42d99acd7175dbc21792"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkM2RhYjljMWQtZjMxZS00MTFmLThmYjctNmVjYWJiODY5NDAwAQAAACQ1NjUyYTc0Ni1iZjBlLTQ2MjQtODkwYi05Y2E4Zjk4MGRlZDg.5CdKHUWpaAJLKHd9WzSVQHqo3RPkilsmo8H2yb5HLcs"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFFFFFF\"")
+            buildConfigField ("boolean", "LightStatusBar", "true")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionOcersb {
+            dimension "Property"
+            property_code = "OCERSB"
+            resValue "string", "app_name", "Inside Eden Rock"
+            buildConfigField("String", "URL", '"https://guest.iris.net/ocersb"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"6d9231651b334c4187e1c6434536263f"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkOGZhYTllNjgtODAzYS00YjExLTk5MjYtYjI5YTQ4YzRiZjE1AQAAACRjYWEzMTA5NS1lMWUxLTRjNTAtYTY1Ni0zYzNiMjk4ZWFiYWU.-4-rZ6_eAZoIrphPpjnSPKWrZrGnixxzmRYr-Kw5jv0"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffDA291D\"")
+            buildConfigField ("boolean", "LightStatusBar", "false")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionOcpltg {
+            dimension "Property"
+            property_code = "OCPLTG"
+            resValue "string", "app_name", "Palacio Tangara"
+            buildConfigField("String", "URL", '"https://guest.iris.net/ocpltg"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"eed42675263e49faa258bdd359e7e85e"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkMTllM2UyMzQtNWQzZS00ZWUwLWEwYWMtN2Q0MDU2ODAzNTQwAQAAACQ3MzhhYWI2ZS1lNTM1LTQ0OTktOWUwNC1mYWM5MGE1YTAyNDg.H4TxeMF9XmyA2gtbN7R5ea4XQlTuPlEdQoPnIYmobVM"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFFFFFF\"")
+            buildConfigField ("boolean", "LightStatusBar", "true")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionSenpri {
+            dimension "Property"
+            property_code = "SENPRI"
+            resValue "string", "app_name", "7Pines Resort Ibiza"
+            buildConfigField("String", "URL", '"https://guest.iris.net/senpri"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"44cd067d4cf64d8aad309be6f5bd17f9"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkNjg2YWMwYTQtOTEzOC00YmMzLWI1NjEtOTZkOWY0M2NjOTEyAQAAACRhMTM4ZDkxZC0zMDgyLTQxYjItOThlNC02NDllMDNlY2UyNjA.CuzhujPBJmUTMuNUBJ4hCNNgZJzGPuIQTHfFbektvp0"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFFFFFF\"")
+            buildConfigField ("boolean", "LightStatusBar", "true")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionSenprs {
+            dimension "Property"
+            property_code = "SENPRS"
+            resValue "string", "app_name", "7Pines Resort Sardinia"
+            buildConfigField("String", "URL", '"https://guest.iris.net/senprs"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"e79a2bba03724aadb8f2dd34ce0b923a"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkZjQwYmFjMmUtMDhlMS00ODdhLWE1YWUtOWVkMTNjNTI2ZmU3AQAAACQ0NTFmYTM1NC1hYTI4LTRmMDAtYjI4OC1jYThjNjAzMmQ1YTE.3JSVeAEhhapj5HKv0H6_4znUf8coi7xSvNlavMgX3Vg"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFFFFFF\"")
+            buildConfigField ("boolean", "LightStatusBar", "true")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionSglxct {
+            dimension "Property"
+            property_code = "SGLXCT"
+            resValue "string", "app_name", "Signature Lux Cape Town"
+            buildConfigField("String", "URL", '"https://guest.iris.net/sglxct"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"11b3ab9691d14a408fc9510a9dd2a64c"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkMjIwOWRkNDktMTIwNi00NWRiLThiMWQtNzRmYzc4MGUxYWZmAQAAACRkZDEzMTBkZC0wMjgyLTQwZjEtYmM0OC00ZjJlZGJlMDdjNDM.N9xGKFQKImi-58BmRpZNUbsE8RXH_M5MCvMfinhbdPw"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFFFFFF\"")
+            buildConfigField ("boolean", "LightStatusBar", "true")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionShando {
+            dimension "Property"
+            property_code = "SHANDO"
+            resValue "string", "app_name", "Sport Hotel Hermitage"
+            buildConfigField("String", "URL", '"https://guest.iris.net/shando"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"59574b658b4041c8ab62a1e60a0923b2"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkOTU4NGFlYTYtN2YwMC00ZGYyLTlkYjgtNGFmZTA5NTlhZDc5AQAAACQ0ZjNjODQ0Zi0wMzJmLTQ0NmItYWFlYS01MzAzYzlhNDM5MDU.uMOdn4hQp1bw-Bk3Xj2BVUfVXb4mEKTthx8r6W2sidA"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ff4D7286\"")
+            buildConfigField ("boolean", "LightStatusBar", "false")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionSonefu {
+            dimension "Property"
+            property_code = "SONEFU"
+            resValue "string", "app_name", "Soneva Fushi"
+            buildConfigField("String", "URL", '"https://guest.iris.net/sonefu"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"158b62ee57864ff5955f66e1afa8574b"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkYjFiMTA2ODYtYWE0Yy00NGQyLTk4N2EtMjdlN2Q0NGU2YmUwAQAAACRiNGNiYjA5NS1iYzQ1LTQyMTEtOTNlNC1jZWEyODMyNjMyZmQ.HiK4q4Zq-kUcRrSHMXJNSrJtz3bnWyw-GX9W0Krqp10"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFFFFFF\"")
+            buildConfigField ("boolean", "LightStatusBar", "true")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionSoneja {
+            dimension "Property"
+            property_code = "SONEJA"
+            resValue "string", "app_name", "Soneva Jani"
+            buildConfigField("String", "URL", '"https://guest.iris.net/soneja"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"7e79477e029d4db29f9d784703ceae60"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkYWFkZjRlMzAtMjkwMS00ZGJiLWIxMTEtZjdlYWE1MjdiZTkzAQAAACQzMzdhYzFlNC0wZDdiLTRmNjItOGE1Yi1lY2Q4MWY5YzQ1YTk.HQN8S72BG0pzdXUBMFltXsWO_Oekec4m4Rs0b_Px88I"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFFFFFF\"")
+            buildConfigField ("boolean", "LightStatusBar", "true")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionSoneki {
+            dimension "Property"
+            property_code = "SONEKI"
+            resValue "string", "app_name", "Soneva Kiri"
+            buildConfigField("String", "URL", '"https://guest.iris.net/soneki"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"89144348486c483395bfb59a1fba2a72"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkOGE4MmFhZDktZmU5NC00ZTNiLWJkZDAtZTczYzExYmU1MjA3AQAAACRmOGRmZWI2Zi1mMzczLTQyZTctYjJjNi1lOTg5OGYxYjNjZWQ.F8hr6Y3xaH5TEK0unv1eB6DPKCNyWMjsQ82xZxBRE64"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFFFFFF\"")
+            buildConfigField ("boolean", "LightStatusBar", "true")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionStawtl {
+            dimension "Property"
+            property_code = "STAWTL"
+            resValue "string", "app_name", "Stow-Away"
+            buildConfigField("String", "URL", '"https://guest.iris.net/stawtl"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"2002b137ca234280a17ff0c9230bb3a1"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkNGRmMTAxN2EtYTY2Zi00NzQzLTkyYzQtYWFhNjJjOWNlMjFmAQAAACRjYTYzMWYxNC02MTJkLTQxOTctOWM2OC1hMmI2YmU2MzMwM2M.kkcnBwGyNQtgOLKMvT5QqgFK-SndeUi7QB1zveelmKc"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFFFFFF\"")
+            buildConfigField ("boolean", "LightStatusBar", "true")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+
+        productionSwrgc {
+            dimension "Property"
+            property_code = "SWRGC"
+            resValue "string", "app_name", "Sea World Resort"
+            buildConfigField("String", "URL", '"https://guest.iris.net/swrgc"')
+            buildConfigField "String", "API_MANAGEMENT_KEY", '"053d55fb1ed74df18f59d854dad14b52"'
+            buildConfigField "String", "APP_INTERFACE_TOKEN", '"AgAAAAAAAAAkYTljOTc5ZWEtNmNlOS00YTc4LWJlNTUtYmZjNzA3MTI5YTYwAQAAACRiMjk3NzI3Mi01MDEwLTRkMDctYWZlZC01NzYwYmMwMDIzZDA.VYaxgI18vTB3i3pmkaP697nebDvM2YXsvVeiAErQZT0"'
+
+            buildConfigField ("String", "StatusBarColor", "\"ffFFFFFF\"")
+            buildConfigField ("boolean", "LightStatusBar", "true")
+
+            signingConfig signingConfigs.config
+            applicationId base_application_id + "." + property_code.toLowerCase()
+        }
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
+    implementation 'androidx.core:core-splashscreen:1.0.0'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+}
